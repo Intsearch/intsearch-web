@@ -18,4 +18,5 @@ export const constants = {
         }
     },
     baseUrl: import.meta.env.VITE_API_ENDPOINT,
+    clarityID: import.meta.env.VITE_CLARITY_ID
 }
