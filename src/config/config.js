@@ -17,5 +17,5 @@ export const constants = {
             cx: ''
         }
     },
-    baseUrl: 'http://127.0.0.1:4000'
+    baseUrl: import.meta.env.VITE_API_ENDPOINT,
 }
