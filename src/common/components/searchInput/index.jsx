@@ -4,6 +4,7 @@ const SearchInput = ({className, currentValue, onSubmit, autoFocus}) => {
     const [keywords, setKeywords] = useState(currentValue || '');
     const [isComposing, setIsComposing] = useState(false);
 
+    const inputRef = useRef(null);
     const shouldSubmitOnCompositionEnd = useRef(false);
 
     const handleCompositionStart = () => {
@@ -31,6 +32,8 @@ const SearchInput = ({className, currentValue, onSubmit, autoFocus}) => {
             } else {
                 // 非输入法状态，立即提交
                 submitInputValue(e.target.value);
+                // 失去焦点，关闭软键盘
+                setTimeout(() => inputRef.current?.blur(), 100);
             }
         }
     }
@@ -54,7 +57,7 @@ const SearchInput = ({className, currentValue, onSubmit, autoFocus}) => {
                 </g>
             </svg>
 
-            <input type="search" inputMode="search" enterKeyHint="search"
+            <input ref={inputRef} type="search" inputMode="search" enterKeyHint="search"
                    value={keywords} placeholder="想要搜索什么？"
                    autoFocus={autoFocus}
                    onChange={({target: {value}}) => setKeywords(value)}
