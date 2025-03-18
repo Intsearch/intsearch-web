@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 
-const SearchInput = ({className, currentValue, onSubmit}) => {
+const SearchInput = ({className, currentValue, onSubmit, autoFocus}) => {
     const [keywords, setKeywords] = useState(currentValue || '');
     const [isComposing, setIsComposing] = useState(false);
 
@@ -54,7 +54,9 @@ const SearchInput = ({className, currentValue, onSubmit}) => {
                 </g>
             </svg>
 
-            <input type="search" value={keywords} placeholder="想要搜索什么？"
+            <input type="search" inputMode="search" enterKeyHint="search"
+                   value={keywords} placeholder="想要搜索什么？"
+                   autoFocus={autoFocus}
                    onChange={({target: {value}}) => setKeywords(value)}
                    onKeyDown={onEnter}
                    onCompositionStart={handleCompositionStart}
