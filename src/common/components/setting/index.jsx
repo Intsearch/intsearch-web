@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 
-import search from "@/api/search.js";
+import search from "@/api/search";
 
-import {validateConfig, setConfig, getConfig} from "@/utils/utils.js";
+import {validateConfig, setConfig, getConfig} from "@/utils/utils";
 
 const SettingDialog = () => {
     const [params, setParams] = useState({});
@@ -42,7 +42,7 @@ const SettingDialog = () => {
     }, []);
 
     return (
-        <dialog id="model_setting" className="modal modal-bottom md:modal-middle">
+        <dialog id="model_setting" className="modal modal-middle">
             <div className="modal-box">
                 <h3 className="font-bold text-lg">参数设置</h3>
 
