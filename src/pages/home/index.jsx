@@ -18,7 +18,7 @@ const Home = () => {
         <div className="w-full px-6 md:px-0 h-screen flex flex-col items-center justify-center">
             <span className="font-lilitaone text-5xl -mt-20">Intsearch</span>
 
-            <SearchInput className="mt-20 h-12" onSubmit={submit}/>
+            <SearchInput className="mt-20 h-12" autoFocus={true} onSubmit={submit}/>
 
             <div className="absolute top-10 right-10">
                 <label className="toggle text-base-content">
