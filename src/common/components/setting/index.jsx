@@ -178,7 +178,7 @@ const SettingDialog = () => {
                         </div>
 
                         <div className="collapse collapse-open">
-                            <div className="collapse-title">Google Custom Search</div>
+                            <div className="collapse-title">Google Custom Search（可选）</div>
 
                             <div className="collapse-content text-sm">
                                 <label className="input w-full ps-4">

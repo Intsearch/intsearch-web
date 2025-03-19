@@ -54,29 +54,31 @@ export function useCopyToClipboard({timeout = 2000}: useCopyToClipboardProps) {
     return {isCopied, copyToClipboard}
 }
 
-export function isJsonFilled(obj: any): boolean {
+export function isJsonFilled(obj: any, ignoreFields: string[] = []): boolean {
     if (obj === null || obj === undefined) return false; // 直接排除 null 和 undefined
 
     if (typeof obj === "string") return obj.trim() !== ""; // 字符串不能是空
     if (typeof obj === "number" || typeof obj === "boolean") return true; // 数字和布尔值始终有效
 
-    if (Array.isArray(obj)) return obj.length > 0 && obj.every(isJsonFilled); // 数组不能是空，并且所有元素都有效
+    if (Array.isArray(obj)) return obj.length > 0 && obj.every(item => isJsonFilled(item, ignoreFields)); // 数组不能是空，并且所有元素都有效
 
     if (typeof obj === "object") {
         const keys = Object.keys(obj);
         if (keys.length === 0) return false; // 空对象无效
-        return keys.every(key => isJsonFilled(obj[key])); // 递归检查所有值
+        return keys.every(key => ignoreFields.includes(key) || isJsonFilled(obj[key], ignoreFields)); // 递归检查所有值，忽略指定字段
     }
 
     return false; // 其他情况都视为空
 }
 
-export function validateJsonStructure(template: any, target: any): boolean {
+export function validateJsonStructure(template: any, target: any, ignoreFields: string[] = []): boolean {
     if (typeof template !== "object" || typeof target !== "object" || template === null || target === null) {
         return false; // 结构不对，直接返回 false
     }
 
     return Object.keys(template).every(key => {
+        if (ignoreFields.includes(key)) return true; // 忽略检查的字段直接跳过
+
         if (!(key in target)) return false; // 目标 JSON 缺少模板中的 key
 
         const templateValue = template[key];
@@ -84,16 +86,16 @@ export function validateJsonStructure(template: any, target: any): boolean {
 
         if (typeof templateValue === "object" && !Array.isArray(templateValue)) {
             // 递归检查嵌套对象
-            return validateJsonStructure(templateValue, targetValue);
+            return validateJsonStructure(templateValue, targetValue, ignoreFields);
         } else {
             // 其他类型：不能是空值
-            return isJsonFilled(targetValue);
+            return isJsonFilled(targetValue, ignoreFields);
         }
     });
 }
 
 export function validateConfig(config: any): boolean {
-    return validateJsonStructure(constants.configTemplate, config);
+    return validateJsonStructure(constants.configTemplate, config, ['search']);
 }
 
 export function setConfig(config: object | null) {

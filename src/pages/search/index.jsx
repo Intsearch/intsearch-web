@@ -3,15 +3,15 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import parse from "html-react-parser";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
-import ProgressCircleInfinity from "@/common/components/progressCircleInfinity/index.jsx";
-import ScrollText from "@/common/components/scrollText/index.jsx";
-import {MessageMarkdown} from "@/common/components/markdown/index.js";
-import SettingDialog from "@/common/components/setting/index.jsx";
-import SearchInput from "@/common/components/searchInput/index.jsx";
+import ProgressCircleInfinity from "@/common/components/progressCircleInfinity/index";
+import ScrollText from "@/common/components/scrollText/index";
+import {MessageMarkdown} from "@/common/components/markdown/index";
+import SettingDialog from "@/common/components/setting/index";
+import SearchInput from "@/common/components/searchInput/index";
 
 import IconWebsite from "@/common/assets/icon_website.svg";
 
-import search from "@/api/search.js";
+import search from "@/api/search";
 
 import './index.css';
 
@@ -236,14 +236,14 @@ const Search = () => {
                                             </div>
 
                                             <div
-                                                className="text-xs text-base-content/50 overflow-hidden whitespace-nowrap text-ellipsis">{parse(item.htmlFormattedUrl)}</div>
+                                                className="text-xs text-base-content/50 overflow-hidden whitespace-nowrap text-ellipsis">{parse(item.htmlFormattedUrl || '')}</div>
                                         </div>
 
                                         <div className="text-base mt-2 cursor-pointer"
-                                             onClick={() => window.open(item.link, '_blank')}>{parse(item.htmlTitle)}</div>
+                                             onClick={() => window.open(item.link, '_blank')}>{parse(item.htmlTitle || '')}</div>
 
                                         <div
-                                            className="text-sm text-base-content/70 mt-2">{item.htmlSnippet && parse(item.htmlSnippet)}</div>
+                                            className="text-sm text-base-content/70 mt-2">{parse(item.htmlSnippet || '')}</div>
                                     </div>
                                 </CSSTransition>
                             )

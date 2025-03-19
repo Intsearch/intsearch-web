@@ -15,6 +15,22 @@ export default {
         }
 
         try {
+            const config = getConfig();
+            if (config.search) {
+                if (!config.search.key) {
+                    config.search['key'] = '';
+                }
+                if (!config.search.cx) {
+                    config.search['cx'] = '';
+                }
+            }
+            if (!config.search) {
+                config['search'] = {
+                    key: '',
+                    cx: ''
+                };
+            }
+
             await fetchEventSource(`${constants.baseUrl}/search`, {
                 method: "POST",
                 headers: {
@@ -22,7 +38,7 @@ export default {
                     'Accept': 'text/event-stream'
                 },
                 body: JSON.stringify({
-                    ...getConfig(),
+                    ...config,
                     q: prompt
                 }),
                 onopen: onOpen,
